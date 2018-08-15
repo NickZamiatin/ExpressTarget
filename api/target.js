@@ -9,11 +9,9 @@ function isValidId(req, res, next){
 
 function validTarget (target){
   console.log(target)
-  const hasDate = typeof target.date == 'string' && target.date.trim() != '';
   const hasTitle = typeof target.title == 'string' && target.title.trim() != '';
   const hasNotes = typeof target.notes == 'string' && target.notes.trim() != '';
-  const hasDone = typeof target.done == 'boolean';
-  return hasDate && hasTitle && hasNotes  && hasDone
+  return hasTitle && hasNotes
 
 }
 

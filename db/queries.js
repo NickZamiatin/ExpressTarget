@@ -2,13 +2,13 @@ const knex= require('./knex');
 
 module.exports = {
   getAllTargets(){
-    return knex('timemangment')
+    return knex('timemangment').orderBy('id','asc');
   },
   getOneTarget(id){
     return knex('timemangment').where('id', id).first();
   },
   createTarget(target){
-    return knex('timemangment').insert(target, '*')
+    return knex('timemangment').insert(target, '*');
   },
   updateTarget(id, event ){
     return knex('timemangment').where('id', id).update(event, '*');
