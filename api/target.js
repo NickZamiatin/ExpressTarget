@@ -54,13 +54,11 @@ router.put('/:id', isValidId, (req, res, next) => {
 });
 
 router.delete('/:id', isValidId, (req, res) => {
-  if(validTarget(req.body)){
-    queries.deleteTarget(req.params.id).then(() => {
-      res.json({
-        deleted: true
-      })
+  queries.deleteTarget(req.params.id).then(() => {
+    res.json({
+      deleted: true
     })
-  }
+  })
 })
 
 module.exports = router;
