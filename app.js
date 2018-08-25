@@ -6,14 +6,15 @@ const logger = require('morgan');
 const cors = require('cors')
 const api = require('./api/target')
 const app = express();
+const auth = require('./auth/index');
 
-app.use(cors())
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('Ya_rodilsa_v_Rosii'));
 
-
+app.use('/api/v1/auth', auth);
 app.use('/api/v1/targets', api)
 app.use(function(req, res, next) {
   next(createError(404));
