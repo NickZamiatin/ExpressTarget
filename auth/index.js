@@ -53,9 +53,11 @@ router.post('/login',(req,res,next)=>{
       .getOneByEmailByuser(req.body.email)
       .then(user => {
         console.log('user',user)
+        console.log(req.body)
         if (user) {
           bcrypt.compare(req.body.password, user.password)
           .then((result)=> {
+            console.log(result)
             if (result) {
               res.cookie('user_id', user.id, {
                 httpOnly: true,
