@@ -78,7 +78,7 @@ router.post('/login',(req,res,next)=>{
           .then((result)=> {
             console.log(result)
             if (result) {
-              console.log('token is ', process.env.TOKEN_SECRET)
+              // console.log('token is ', process.env.TOKEN_SECRET)
               jwt.sign({
                 id: user.id,
                 email: user.email
