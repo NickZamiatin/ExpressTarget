@@ -7,17 +7,23 @@ const cors = require('cors')
 const api = require('./api/target')
 const app = express();
 const auth = require('./auth/index');
+const middlewares = require('./auth/middlewares');
 
 app.use(cors({
   credentials: true
 }));
+app.use(middlewares.checkTokenSetUser);
 app.use(logger('dev'));
-app.use(express.json());
+app.use(express.json());  
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser('Ya_rodilsa_v_Rosii'));
 
+app.get('/', (req, res) => {
+  res.json({user: req.user})
+})
+
 app.use('/auth', auth);
-app.use('/api/v1/targets', api)
+app.use('/api/v1/targets',middlewares.isLoggedIn, api)
 app.use(function(req, res, next) {
   next(createError(404));
 });

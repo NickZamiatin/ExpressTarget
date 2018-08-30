@@ -12,7 +12,6 @@ function validTarget (target){
   const hasTitle = typeof target.title == 'string' && target.title.trim() != '';
   const hasNotes = typeof target.notes == 'string' && target.notes.trim() != '';
   return hasTitle && hasNotes
-
 }
 
 
