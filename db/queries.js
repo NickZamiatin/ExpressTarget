@@ -1,20 +1,21 @@
 const knex= require('./knex');
 
 module.exports = {
-  getAllTargets(){
-    return knex('timemangment').orderBy('id','asc');
+  getAllTargets(user_id){ //only get targets where user_id is currently logged in user.id
+    return knex('timemangment').orderBy('id','asc').where('user_id',user_id);
   },
-  getOneTarget(id){
-    return knex('timemangment').where('id', id).first();
+  getOneTarget(id,user_id){ // after getting the target, make sure user_id is user.id, if not, return unauthorized error
+    return knex('timemangment').where('id', id).first().where('user_id',user_id);
   },
-  createTarget(target){
+  createTarget(target, user_id){ // before inserting set user_id to be user.id
+    target.user_id = user_id
     return knex('timemangment').insert(target, '*');
   },
-  updateTarget(id, event ){
-    return knex('timemangment').where('id', id).update(event, '*');
+  updateTarget(id, event, user_id){  // get target first, make sure user_id is user.id, if not, return unauthorized error, if so, update it
+    return knex('timemangment').where('id', id).where('user_id', user_id).update(event, '*');
   },
-  deleteTarget(id, event ){
-    return knex('timemangment').where('id', id).del();
+  deleteTarget(id, user_id ){  // get target first, make sure user_id is user.id, if not, return unauthorized error, if so, delete it
+    return knex('timemangment').where('id', id).where('user_id', user_id).del();
   },
 
   getOneUser (id) {

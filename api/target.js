@@ -15,14 +15,14 @@ function validTarget (target){
 }
 
 
-router.get ('/', (req, res )=>{
-  queries.getAllTargets().then(target =>{
+router.get ('/', (req, res, next)=>{
+  queries.getAllTargets(req.user.id).then(target =>{
     res.json(target)
-  })
+  }).catch(next)
 });
 
 router.get ('/:id',isValidId, (req, res, next)=>{
-  queries.getOneTarget(req.params.id).then(target =>{
+  queries.getOneTarget(req.params.id, req.user.id).then(target =>{
     if(target){
       res.json(target)
     } else {
@@ -34,9 +34,9 @@ router.get ('/:id',isValidId, (req, res, next)=>{
 
 router.post('/',(req, res, next)=>{
   if(validTarget(req.body)){
-    queries.createTarget(req.body).then(target =>{
+    queries.createTarget(req.body, req.user.id).then(target =>{
       res.json(target[0])
-    })
+    }).catch(next)
   } else {
     next(new Error('Dont Post'))
   }
@@ -44,7 +44,7 @@ router.post('/',(req, res, next)=>{
 
 router.put('/:id', isValidId, (req, res, next) => {
   if(validTarget(req.body)){
-    queries.updateTarget(req.params.id, req.body).then(target => {
+    queries.updateTarget(req.params.id, req.body, req.user.id).then(target => {
       res.json(target[0])
     })
   } else {
@@ -53,7 +53,7 @@ router.put('/:id', isValidId, (req, res, next) => {
 });
 
 router.delete('/:id', isValidId, (req, res) => {
-  queries.deleteTarget(req.params.id).then(() => {
+  queries.deleteTarget(req.params.id, req.user.id).then(() => {
     res.json({
       deleted: true
     })
